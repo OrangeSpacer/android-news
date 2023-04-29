@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">NewsApplication</string>
+    <string name="title">Вход в приложение</string>
+    <string name="login">Логин</string>
+    <string name="password">Пароль</string>
+    <string name="btnLogin">войти</string>
+    <string name="description">Разработчик: Махаев Артём, группа РИБО-01-21</string>
+    <string name="title_activity_main2">MainActivity2</string>
+
+</resources>
