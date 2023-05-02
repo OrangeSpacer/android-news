@@ -16,7 +16,7 @@
         android:theme="@style/Theme.NewsApplication"
         tools:targetApi="31" >
         <activity
-            android:name=".MainActivity2"
+            android:name=".NewsActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity"
