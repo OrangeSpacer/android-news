@@ -11,8 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.tabs.TabLayout;
@@ -54,35 +52,9 @@ public class NewsActivity extends AppCompatActivity{
             tabLayout.addTab(tabLayout.newTab().setText(tabTitles.get(i)));
         }
 
-            MyPagerAdapter adapter = new MyPagerAdapter(getSupportFragmentManager(), tabTitles);
+            Adapter adapter = new Adapter(getSupportFragmentManager(), tabTitles);
             viewPager.setAdapter(adapter);
             tabLayout.setupWithViewPager(viewPager);
-    }
-
-    private static class MyPagerAdapter extends FragmentPagerAdapter {
-        private List<String> tabTitles;
-
-        public MyPagerAdapter(@NonNull FragmentManager fm, List<String> tabTitles) {
-            super(fm);
-            this.tabTitles = tabTitles;
-        }
-
-        @NonNull
-        @Override
-        public Fragment getItem(int position) {
-            return TabFragment.newInstance(position);
-        }
-
-        @Override
-        public int getCount() {
-            return tabTitles.size();
-        }
-
-        @Nullable
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return tabTitles.get(position);
-        }
     }
 
     public static class TabFragment extends Fragment {
