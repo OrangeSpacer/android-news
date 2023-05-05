@@ -19,9 +19,8 @@ public class Adapter extends FragmentPagerAdapter {
     @NonNull
     @Override
     public Fragment getItem(int position) {
-        return NewsActivity.TabFragment.newInstance(position);
+        return TabFragment.newInstance(position);
     }
-
     @Override
     public int getCount() {
         return tabTitles.size();

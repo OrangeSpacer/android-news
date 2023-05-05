@@ -1,14 +1,15 @@
 package com.example.newsapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import org.jetbrains.annotations.NotNull;
@@ -32,23 +33,10 @@ public class TabFragment extends Fragment {
     private List<String> titles = new ArrayList<>();
     private List<String> descriptions = new ArrayList<>();
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        listView.setOnItemClickListener((parent, view, position, id) -> {
-            String description = "test";
-
-            // Создаем новый Intent для запуска активности с описанием новости
-//                Intent intent = new Intent(getActivity(), DescriptionActivity.class);
-//                intent.putExtra("description", description);
-//                startActivity(intent);
-        });
-    }
-
-    public static NewsActivity.TabFragment newInstance(int position) {
-        NewsActivity.TabFragment fragment = new NewsActivity.TabFragment();
+    public static TabFragment newInstance(int position) {
+        TabFragment fragment = new TabFragment();
         Bundle args = new Bundle();
-        args.putInt("position", position);
+        args.putInt("position",position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -57,9 +45,18 @@ public class TabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab, container, false);
         listView = view.findViewById(R.id.listView);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getActivity(), DescriptionActivity.class);
+                intent.putExtra("description", "test");
+                startActivity(intent);
+            }
+        });
         return view;
     }
-
+    
+    
     @Override
     public void onViewCreated(@NotNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
