@@ -49,7 +49,7 @@ public class TabFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), DescriptionActivity.class);
-                intent.putExtra("description", "test");
+                intent.putExtra("description", descriptions.get(position));
                 startActivity(intent);
             }
         });
@@ -104,6 +104,11 @@ public class TabFragment extends Fragment {
                             eventType = xpp.next();
                             String title = xpp.getText();
                             titles.add(title);
+                        }
+                        if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("description")) {
+                            eventType = xpp.next();
+                            String descr = xpp.getText();
+                            descriptions.add(descr);
                         }
                         eventType = xpp.next();
                     }
