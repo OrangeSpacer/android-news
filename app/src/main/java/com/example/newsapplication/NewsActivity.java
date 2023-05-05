@@ -47,7 +47,8 @@ public class NewsActivity extends AppCompatActivity{
         List<String> tabTitles = new ArrayList<>();
         tabTitles.add("politics");
         tabTitles.add("technology");
-        tabTitles.add("technology");
+        tabTitles.add("community");
+        tabTitles.add("incidents");
 
         for (int i = 0; i < tabTitles.size(); i++) {
             tabLayout.addTab(tabLayout.newTab().setText(tabTitles.get(i)));
@@ -87,7 +88,20 @@ public class NewsActivity extends AppCompatActivity{
     public static class TabFragment extends Fragment {
         private ListView listView;
         private List<String> titles = new ArrayList<>();
+        private List<String> descriptions = new ArrayList<>();
 
+        @Override
+        public void onCreate(@Nullable Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            listView.setOnItemClickListener((parent, view, position, id) -> {
+                String description = "test";
+
+                // Создаем новый Intent для запуска активности с описанием новости
+//                Intent intent = new Intent(getActivity(), DescriptionActivity.class);
+//                intent.putExtra("description", description);
+//                startActivity(intent);
+            });
+        }
 
         public static TabFragment newInstance(int position) {
             TabFragment fragment = new TabFragment();
@@ -116,9 +130,14 @@ public class NewsActivity extends AppCompatActivity{
                 case 1:
                     reqQuery = "technology";
                     break;
+                case 2:
+                    reqQuery = "community";
+                    break;
+                case 3:
+                    reqQuery = "incidents";
+                    break;
             }
             OkHttpClient client = new OkHttpClient();
-            System.out.println("https://news.rambler.ru/rss/" +  reqQuery + "/");
             Request request = new Request.Builder()
                     .url("https://news.rambler.ru/rss/" +  reqQuery + "/")
                     .build();
@@ -141,8 +160,8 @@ public class NewsActivity extends AppCompatActivity{
                         xpp.setInput(new StringReader(xml));
 
                         int eventType = xpp.getEventType();
-                        while(eventType != XmlPullParser.END_DOCUMENT) {
-                            if(eventType == XmlPullParser.START_TAG && xpp.getName().equals("title")){
+                        while (eventType != XmlPullParser.END_DOCUMENT) {
+                            if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("title")) {
                                 eventType = xpp.next();
                                 String title = xpp.getText();
                                 titles.add(title);
