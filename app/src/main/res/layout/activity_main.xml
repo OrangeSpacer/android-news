@@ -5,23 +5,48 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="@color/bg">
     <TextView
       android:layout_width="wrap_content"
       android:id="@+id/title"
       android:layout_height="wrap_content"
       android:text="@string/title"
       android:layout_centerHorizontal="true"
+      android:textColor="@color/text"
       android:layout_marginTop="35pt"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintStart_toStartOf="parent"
       app:layout_constraintEnd_toEndOf="parent"
       app:layout_constraintTop_toTopOf="parent" />
-    <EditText
-        android:id="@+id/loginText"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:id="@+id/error"
+        android:text="error"
+        android:layout_below = "@+id/title"
+        android:textColor="@color/error"
+        android:layout_marginTop="50dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"/>
+    <EditText
+        android:id="@+id/loginText"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="15dp"
+        android:textSize="14sp"
+        android:layout_marginBottom="25dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
         android:hint="@string/login"
+        android:textColorHint="@color/light_black"
+        android:textColor="@color/black"
+        android:background="@drawable/custom_input"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -31,21 +56,32 @@
     <EditText
         android:hint="@string/password"
         android:id="@+id/passwordText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="15dp"
+        android:paddingStart="12dp"
+        android:paddingEnd="12dp"
+        android:textColorHint="@color/light_black"
+        android:textSize="14sp"
+        android:textColor="@color/black"
         android:layout_below = "@+id/loginText"
+        android:background="@drawable/custom_input"
         android:layout_centerHorizontal="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
     <Button
         android:id="@+id/loginBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/btnLogin"
+        android:layout_width="250dp"
+        android:layout_height="50dp"
         android:layout_below="@+id/passwordText"
         android:layout_centerInParent="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_marginTop="150px"
+        android:textSize="15dp"
+        android:backgroundTint="@color/light_orange"
+        android:textAllCaps="true"
+        android:text="@string/btnLogin" />
 
   </RelativeLayout>

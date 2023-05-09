@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="bg">#1b263b</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="light_white">#e0e1dd</color>
+    <color name="light_orange">#fcbf49</color>
+    <color name="error">#d62828</color>
+    <color name="orange">#f77f00</color>
+    <color name="light_black">#003049</color>
+    <color name="text">#f1faee</color>
 </resources>
