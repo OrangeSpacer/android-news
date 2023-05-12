@@ -13,14 +13,20 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import org.jetbrains.annotations.NotNull;
-import org.xmlpull.v1.XmlPullParser;
-import org.xmlpull.v1.XmlPullParserException;
-import org.xmlpull.v1.XmlPullParserFactory;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -104,30 +110,31 @@ public class TabFragment extends Fragment {
 
     public void parser(List<String> decr, List<String> titles, String file) {
         String xml = file;
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder builder = null;
         try {
-            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-            factory.setNamespaceAware(true);
-            XmlPullParser xpp = factory.newPullParser();
-            xpp.setInput(new StringReader(xml));
-
-            int eventType = xpp.getEventType();
-            while (eventType != XmlPullParser.END_DOCUMENT) {
-                if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("title")) {
-                    eventType = xpp.next();
-                    String t = xpp.getText();
-                    titles.add(t);
-                }
-                if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("description")) {
-                    eventType = xpp.next();
-                    String d = xpp.getText();
-                    decr.add(d);
-                }
-                eventType = xpp.next();
-            }
-        } catch (XmlPullParserException e) {
+            builder = factory.newDocumentBuilder();
+        } catch (ParserConfigurationException e) {
             throw new RuntimeException(e);
+        }
+
+        Document doc = null;
+        try {
+            doc = builder.parse(new InputSource(new StringReader(xml)));
         } catch (IOException e) {
             throw new RuntimeException(e);
+        } catch (SAXException e) {
+            throw new RuntimeException(e);
+        }
+
+        NodeList itemList = doc.getElementsByTagName("item");
+        
+        for (int i = 0; i < itemList.getLength(); i++) {
+            Element item = (Element) itemList.item(i);
+            String title = item.getElementsByTagName("title").item(0).getTextContent();
+            String description = item.getElementsByTagName("description").item(0).getTextContent();
+            titles.add(title);
+            decr.add(description);
         }
     }
 }
