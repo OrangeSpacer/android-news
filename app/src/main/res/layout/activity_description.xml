@@ -4,10 +4,29 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DescriptionActivity">
+    tools:context=".DescriptionActivity"
+    android:background="@color/bg">
+    <TextView
+        android:id="@+id/titleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text"
+        android:paddingLeft="15px"
+        android:paddingRight="15px"
+        android:textSize="20dp"
+        android:layout_marginTop="50px"
+        android:textAlignment="center"/>
     <TextView
         android:id="@+id/descriptionTextView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text"
+        android:layout_below="@+id/titleTextView"
+        android:paddingLeft="10px"
+        android:paddingRight="10px"
+        android:textSize="16dp"
+        android:layout_marginTop="150px"
+        android:layout_centerHorizontal="true"
+        />
 
 </RelativeLayout>

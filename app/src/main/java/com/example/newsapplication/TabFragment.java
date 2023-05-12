@@ -36,7 +36,7 @@ public class TabFragment extends Fragment {
     public static TabFragment newInstance(int position) {
         TabFragment fragment = new TabFragment();
         Bundle args = new Bundle();
-        args.putInt("position",position);
+        args.putInt("position", position);
         fragment.setArguments(args);
         return fragment;
     }
@@ -50,19 +50,20 @@ public class TabFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(getActivity(), DescriptionActivity.class);
                 intent.putExtra("description", descriptions.get(position));
+                intent.putExtra("title", titles.get(position));
                 startActivity(intent);
             }
         });
         return view;
     }
-    
-    
+
+
     @Override
     public void onViewCreated(@NotNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         int position = getArguments().getInt("position");
         String reqQuery = "";
-        switch (position){
+        switch (position) {
             case 0:
                 reqQuery = "politics";
                 break;
@@ -78,7 +79,7 @@ public class TabFragment extends Fragment {
         }
         OkHttpClient client = new OkHttpClient();
         Request request = new Request.Builder()
-                .url("https://news.rambler.ru/rss/" +  reqQuery + "/")
+                .url("https://news.rambler.ru/rss/" + reqQuery + "/")
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override
@@ -92,35 +93,41 @@ public class TabFragment extends Fragment {
                     throw new IOException("Unexpected code " + response);
                 }
                 String xml = response.body().string();
-                try{
-                    XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
-                    factory.setNamespaceAware(true);
-                    XmlPullParser xpp = factory.newPullParser();
-                    xpp.setInput(new StringReader(xml));
-
-                    int eventType = xpp.getEventType();
-                    while (eventType != XmlPullParser.END_DOCUMENT) {
-                        if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("title")) {
-                            eventType = xpp.next();
-                            String title = xpp.getText();
-                            titles.add(title);
-                        }
-                        if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("description")) {
-                            eventType = xpp.next();
-                            String descr = xpp.getText();
-                            descriptions.add(descr);
-                        }
-                        eventType = xpp.next();
-                    }
-                    getActivity().runOnUiThread(() -> {
+                parser(descriptions,titles,xml);
+                getActivity().runOnUiThread(() -> {
                         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, titles);
                         listView.setAdapter(adapter);
-                    });
-
-                } catch (XmlPullParserException e) {
-                    throw new RuntimeException(e);
-                }
+                });
             }
         });
+    }
+
+    public void parser(List<String> decr, List<String> titles, String file) {
+        String xml = file;
+        try {
+            XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+            factory.setNamespaceAware(true);
+            XmlPullParser xpp = factory.newPullParser();
+            xpp.setInput(new StringReader(xml));
+
+            int eventType = xpp.getEventType();
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("title")) {
+                    eventType = xpp.next();
+                    String t = xpp.getText();
+                    titles.add(t);
+                }
+                if (eventType == XmlPullParser.START_TAG && xpp.getName().equals("description")) {
+                    eventType = xpp.next();
+                    String d = xpp.getText();
+                    decr.add(d);
+                }
+                eventType = xpp.next();
+            }
+        } catch (XmlPullParserException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
