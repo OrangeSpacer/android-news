@@ -2,11 +2,14 @@ package com.example.newsapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import androidx.annotation.NonNull;
@@ -36,8 +39,14 @@ import okhttp3.Response;
 
 public class TabFragment extends Fragment {
     private ListView listView;
+
+    List<String> filteredTitles;
+    List<String> filteredDescr;
+    ArrayAdapter<String> adapter;
     private List<String> titles = new ArrayList<>();
     private List<String> descriptions = new ArrayList<>();
+
+    private EditText textEdit;
 
     public static TabFragment newInstance(int position) {
         TabFragment fragment = new TabFragment();
@@ -51,13 +60,45 @@ public class TabFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tab, container, false);
         listView = view.findViewById(R.id.listView);
+        textEdit = view.findViewById(R.id.txtsearch);
+
+        textEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if(s.toString().equals("")){
+                    filteredDescr.clear();
+                    filteredTitles.clear();
+                    adapter = new ArrayAdapter<>(getActivity(), R.layout.listview_item,R.id.jopa, titles);
+                    listView.setAdapter(adapter);
+                } else {
+                    searchItem(s.toString());
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(getActivity(), DescriptionActivity.class);
-                intent.putExtra("description", descriptions.get(position));
-                intent.putExtra("title", titles.get(position));
-                startActivity(intent);
+               if(filteredTitles != null && filteredDescr != null) {
+                    System.out.println(filteredDescr);
+                    Intent intent = new Intent(getActivity(), DescriptionActivity.class);
+                    intent.putExtra("description", filteredDescr.get(position));
+                    intent.putExtra("title", filteredTitles.get(position));
+                    startActivity(intent);
+                } else {
+                    Intent intent = new Intent(getActivity(), DescriptionActivity.class);
+                    intent.putExtra("description", descriptions.get(position));
+                    intent.putExtra("title", titles.get(position));
+                    startActivity(intent);
+                }
             }
         });
         return view;
@@ -101,11 +142,25 @@ public class TabFragment extends Fragment {
                 String xml = response.body().string();
                 parser(descriptions,titles,xml);
                 getActivity().runOnUiThread(() -> {
-                        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, titles);
-                        listView.setAdapter(adapter);
+                    adapter = new ArrayAdapter<>(getActivity(), R.layout.listview_item,R.id.jopa, titles);
+                    listView.setAdapter(adapter);
                 });
             }
         });
+    }
+
+    public void searchItem(String textToSearch){
+        filteredTitles = new ArrayList<>();
+        filteredDescr = new ArrayList<>();
+        for(int i = 0;i < titles.size();i++){
+            if(titles.get(i).toLowerCase().contains(textToSearch.toLowerCase())){
+                filteredTitles.add(titles.get(i));
+                filteredDescr.add(descriptions.get(i));
+            }
+        }
+        adapter = new ArrayAdapter<>(getActivity(), R.layout.listview_item,R.id.jopa, filteredTitles);
+        listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
     public void parser(List<String> decr, List<String> titles, String file) {
@@ -128,7 +183,9 @@ public class TabFragment extends Fragment {
         }
 
         NodeList itemList = doc.getElementsByTagName("item");
-        
+        titles.clear();
+        decr.clear();
+
         for (int i = 0; i < itemList.getLength(); i++) {
             Element item = (Element) itemList.item(i);
             String title = item.getElementsByTagName("title").item(0).getTextContent();

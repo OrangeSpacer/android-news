@@ -22,10 +22,10 @@ public class NewsActivity extends AppCompatActivity{
         viewPager = findViewById(R.id.view_pager);
 
         List<String> tabTitles = new ArrayList<>();
-        tabTitles.add("politics");
-        tabTitles.add("technology");
-        tabTitles.add("community");
-        tabTitles.add("incidents");
+        tabTitles.add("политика");
+        tabTitles.add("технологии");
+        tabTitles.add("общество");
+        tabTitles.add("инциденты");
 
         for (int i = 0; i < tabTitles.size(); i++) {
             tabLayout.addTab(tabLayout.newTab().setText(tabTitles.get(i)));
