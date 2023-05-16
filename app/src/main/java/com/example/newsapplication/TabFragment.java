@@ -72,8 +72,7 @@ public class TabFragment extends Fragment {
                 if(s.toString().equals("")){
                     filteredDescr = null;
                     filteredTitles = null;
-                    adapter = new ArrayAdapter<>(getActivity(), R.layout.listview_item,R.id.jopa, titles);
-                    listView.setAdapter(adapter);
+                    adapter = new ArrayAdapter<>(getActivity(), R.layout.listview_item,R.id.jopa, titles);;
                     listView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } else {
