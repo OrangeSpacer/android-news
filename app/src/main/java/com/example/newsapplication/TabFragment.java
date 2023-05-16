@@ -70,10 +70,12 @@ public class TabFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.toString().equals("")){
-                    filteredDescr.clear();
-                    filteredTitles.clear();
+                    filteredDescr = null;
+                    filteredTitles = null;
                     adapter = new ArrayAdapter<>(getActivity(), R.layout.listview_item,R.id.jopa, titles);
                     listView.setAdapter(adapter);
+                    listView.setAdapter(adapter);
+                    adapter.notifyDataSetChanged();
                 } else {
                     searchItem(s.toString());
                 }
@@ -156,7 +158,7 @@ public class TabFragment extends Fragment {
             if(titles.get(i).toLowerCase().contains(textToSearch.toLowerCase())){
                 filteredTitles.add(titles.get(i));
                 filteredDescr.add(descriptions.get(i));
-            }
+           }
         }
         adapter = new ArrayAdapter<>(getActivity(), R.layout.listview_item,R.id.jopa, filteredTitles);
         listView.setAdapter(adapter);

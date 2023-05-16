@@ -11,8 +11,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/text"
-        android:paddingLeft="15px"
-        android:paddingRight="15px"
+        android:paddingLeft="50px"
+        android:paddingRight="50px"
         android:textSize="20dp"
         android:layout_marginTop="50px"
         android:textAlignment="center"/>
@@ -22,16 +22,20 @@
         android:layout_height="wrap_content"
         android:textColor="@color/text"
         android:layout_below="@+id/titleTextView"
-        android:paddingLeft="10px"
-        android:paddingRight="10px"
+        android:paddingLeft="50px"
         android:textSize="16dp"
         android:layout_marginTop="150px"
         android:layout_centerHorizontal="true"
         />
     <Button
         android:id="@+id/shareBtn"
+        android:layout_marginTop="50dp"
+        android:layout_below="@+id/descriptionTextView"
         android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/light_orange"
+        android:textAllCaps="true"
         android:text="Поделиться"/>
 
 </RelativeLayout>
