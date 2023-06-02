@@ -2,6 +2,7 @@ package com.example.newsapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -39,49 +40,60 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void sendReq(TextView errorBlock,EditText login,EditText password) {
-        OkHttpClient client = new OkHttpClient();
+        Log.i("LoginBtn", "Нажатие на кнопку авторизации");
+        if(login.getText().toString().isEmpty() || password.getText().toString() == "") {
+            errorBlock.setText("Все поля должны быть заполнены");
+            errorBlock.setVisibility(View.VISIBLE);
+            Log.i("LoginBtnEmptyValue", "Пустые поля");
+        } else {
+            errorBlock.setText("");
+            errorBlock.setVisibility(View.VISIBLE);
+            OkHttpClient client = new OkHttpClient();
 
-        String API_URL = "https://android-for-students.ru/coursework/login.php";
+            String API_URL = "https://android-for-students.ru/coursework/login.php";
 
-        RequestBody formBody = new FormBody.Builder()
-                .add("lgn",login.getText().toString())
-                .add("pwd", password.getText().toString())
-                .add("g", "RIBO-01-21")
-                .build();
-        Request req = new Request.Builder()
-                .url(API_URL)
-                .post(formBody)
-                .build();
+            RequestBody formBody = new FormBody.Builder()
+                    .add("lgn",login.getText().toString())
+                    .add("pwd", password.getText().toString())
+                    .add("g", "RIBO-01-21")
+                    .build();
+            Request req = new Request.Builder()
+                    .url(API_URL)
+                    .post(formBody)
+                    .build();
 
-        client.newCall(req).enqueue(new Callback() {
-            @Override
-            public void onFailure(@NonNull Call call, @NonNull IOException e) {
+            client.newCall(req).enqueue(new Callback() {
+                @Override
+                public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
-            }
+                }
 
-            @Override
-            public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
-                String res = response.body().string();
+                @Override
+                public void onResponse(@NonNull Call call, @NonNull Response response) throws IOException {
+                    String res = response.body().string();
 
-                runOnUiThread(() -> {
-                    try{
-                        JSONObject jsonObject = new JSONObject(res);
-                        int resultCode = jsonObject.getInt("result_code");
-                        if(resultCode == 1){
-                            errorBlock.setVisibility(View.INVISIBLE);
-                            Intent intent = new Intent(MainActivity.this, NewsActivity.class);
-                            startActivity(intent);
-                        } else if (resultCode == -1){
-                            System.out.println(jsonObject);
-                            String error = jsonObject.getString("error");
-                            errorBlock.setVisibility(View.VISIBLE);
-                            errorBlock.setText(error);
+                    runOnUiThread(() -> {
+                        try{
+                            JSONObject jsonObject = new JSONObject(res);
+                            int resultCode = jsonObject.getInt("result_code");
+                            if(resultCode == 1){
+                                errorBlock.setVisibility(View.INVISIBLE);
+                                Intent intent = new Intent(MainActivity.this, NewsActivity.class);
+                                startActivity(intent);
+                                Log.i("LoginBtnSuccess", "Успешный вход");
+                            } else if (resultCode == -1){
+                                System.out.println(jsonObject);
+                                String error = jsonObject.getString("error");
+                                errorBlock.setText(error);
+                                errorBlock.setVisibility(View.VISIBLE);
+                                Log.i("LoginBtnError", "ошибка на стороне сервера");
+                            }
+                        } catch (JSONException e) {
+                            throw new RuntimeException(e);
                         }
-                    } catch (JSONException e) {
-                        throw new RuntimeException(e);
-                    }
-                });
-            }
-        });
+                    });
+                }
+            });
+        }
     }
 }
