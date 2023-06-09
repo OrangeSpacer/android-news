@@ -72,7 +72,7 @@ public class TabFragment extends Fragment {
                 if(s.toString().equals("")){
                     filteredDescr = null;
                     filteredTitles = null;
-                    adapter = new ArrayAdapter<>(getActivity(), R.layout.listview_item,R.id.jopa, titles);;
+                    adapter = new ArrayAdapter<>(getActivity(), R.layout.listview_item,R.id.news, titles);
                     listView.setAdapter(adapter);
                     adapter.notifyDataSetChanged();
                 } else {
@@ -143,7 +143,7 @@ public class TabFragment extends Fragment {
                 String xml = response.body().string();
                 parser(descriptions,titles,xml);
                 getActivity().runOnUiThread(() -> {
-                    adapter = new ArrayAdapter<>(getActivity(), R.layout.listview_item,R.id.jopa, titles);
+                    adapter = new ArrayAdapter<>(getActivity(), R.layout.listview_item,R.id.news, titles);
                     listView.setAdapter(adapter);
                 });
             }
@@ -159,7 +159,7 @@ public class TabFragment extends Fragment {
                 filteredDescr.add(descriptions.get(i));
            }
         }
-        adapter = new ArrayAdapter<>(getActivity(), R.layout.listview_item,R.id.jopa, filteredTitles);
+        adapter = new ArrayAdapter<>(getActivity(), R.layout.listview_item,R.id.news, filteredTitles);
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }

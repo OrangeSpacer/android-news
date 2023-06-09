@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             Log.i("LoginBtnEmptyValue", "Пустые поля");
         } else {
             errorBlock.setText("");
-            errorBlock.setVisibility(View.VISIBLE);
+            errorBlock.setVisibility(View.INVISIBLE);
             OkHttpClient client = new OkHttpClient();
 
             String API_URL = "https://android-for-students.ru/coursework/login.php";

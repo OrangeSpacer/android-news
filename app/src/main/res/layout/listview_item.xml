@@ -4,9 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:id="@+id/jopa"
+        android:id="@+id/news"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textColor="@color/light_orange"
