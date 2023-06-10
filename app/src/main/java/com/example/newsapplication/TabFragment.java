@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -70,6 +71,7 @@ public class TabFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if(s.toString().equals("")){
+                    Log.i("filterInput", "фильтрация");
                     filteredDescr = null;
                     filteredTitles = null;
                     adapter = new ArrayAdapter<>(getActivity(), R.layout.listview_item,R.id.news, titles);
@@ -89,12 +91,13 @@ public class TabFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                if(filteredTitles != null && filteredDescr != null) {
-                    System.out.println(filteredDescr);
+                   Log.i("NewsBtn", "нажатие на новость");
                     Intent intent = new Intent(getActivity(), DescriptionActivity.class);
                     intent.putExtra("description", filteredDescr.get(position));
                     intent.putExtra("title", filteredTitles.get(position));
                     startActivity(intent);
                 } else {
+                   Log.i("NewsBtn", "нажатие на новость");
                     Intent intent = new Intent(getActivity(), DescriptionActivity.class);
                     intent.putExtra("description", descriptions.get(position));
                     intent.putExtra("title", titles.get(position));

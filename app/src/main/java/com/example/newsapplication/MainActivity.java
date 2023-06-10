@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity {
         if(login.getText().toString().isEmpty() || password.getText().toString() == "") {
             errorBlock.setText("Все поля должны быть заполнены");
             errorBlock.setVisibility(View.VISIBLE);
-            Log.i("LoginBtnEmptyValue", "Пустые поля");
+            Log.e("LoginBtnEmptyValue", "Пустые поля");
         } else {
             errorBlock.setText("");
             errorBlock.setVisibility(View.INVISIBLE);
@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                                 String error = jsonObject.getString("error");
                                 errorBlock.setText(error);
                                 errorBlock.setVisibility(View.VISIBLE);
-                                Log.i("LoginBtnError", "ошибка на стороне сервера");
+                                Log.e("LoginBtnError", "ошибка на стороне сервера");
                             }
                         } catch (JSONException e) {
                             throw new RuntimeException(e);
