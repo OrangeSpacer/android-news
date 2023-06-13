@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,8 +37,22 @@ public class MainActivity extends AppCompatActivity {
         EditText loginText = findViewById(R.id.loginText);
         EditText passwordText = findViewById(R.id.passwordText);
         Button loginBtn = findViewById(R.id.loginBtn);
+        TextInputLayout passwordLayout = findViewById(R.id.passwordLayout);
 
         loginBtn.setOnClickListener(view -> sendReq(errorView,loginText,passwordText));
+
+        passwordText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus) {
+                    passwordLayout.setHint("");
+                } else if(passwordText.getText().toString().length() == 0) {
+                    passwordLayout.setHint("Пароль");
+                } else {
+                    passwordLayout.setHint("");
+                }
+            }
+        });
     }
 
     private void sendReq(TextView errorBlock,EditText login,EditText password) {

@@ -52,30 +52,37 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
-    <EditText
-        android:hint="@string/password"
-        android:id="@+id/passwordText"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/passwordLayout"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_marginLeft="15dp"
-        android:paddingStart="12dp"
-        android:paddingEnd="12dp"
+        android:layout_height="wrap_content"
+        app:passwordToggleEnabled="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:textColorHint="@color/light_black"
-        android:textSize="14sp"
-        android:textColor="@color/black"
-        android:layout_below = "@+id/loginText"
-        android:background="@drawable/custom_input"
-        android:layout_centerHorizontal="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:hintAnimationEnabled="false"
+        app:passwordToggleTint="@color/black"
+        android:layout_below = "@+id/loginText">
+        <EditText
+            android:hint="@string/password"
+            android:id="@+id/passwordText"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:paddingStart="12dp"
+            android:paddingEnd="12dp"
+            android:textColorHint="@color/light_black"
+            android:textSize="14sp"
+            android:textColor="@color/black"
+            android:background="@drawable/custom_input"
+            android:layout_centerHorizontal="true" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/loginBtn"
         android:layout_width="250dp"
         android:layout_height="50dp"
-        android:layout_below="@+id/passwordText"
+        android:layout_below="@+id/passwordLayout"
         android:layout_centerInParent="true"
         android:layout_marginTop="150px"
         android:textSize="15dp"
